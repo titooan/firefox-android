@@ -20,3 +20,8 @@ class MessagingFeature(val appStore: AppStore) : LifecycleAwareFeature {
 
     override fun stop() = Unit
 }
+
+object MessageSurfaceId {
+    const val NOTIFICATION = "notification"
+    const val HOMESCREEN = "homescreen"
+}

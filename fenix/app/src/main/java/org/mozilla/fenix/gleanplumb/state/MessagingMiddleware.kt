@@ -19,7 +19,7 @@ import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.UpdateMes
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.UpdateMessages
 import org.mozilla.fenix.components.appstate.AppState
 import org.mozilla.fenix.gleanplumb.Message
-import org.mozilla.fenix.gleanplumb.NimbusMessagingController
+import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import org.mozilla.fenix.gleanplumb.NimbusMessagingStorage
 
 typealias AppStoreMiddlewareContext = MiddlewareContext<AppState, AppAction>

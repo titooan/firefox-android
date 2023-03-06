@@ -25,7 +25,7 @@ import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.Restore
 import org.mozilla.fenix.components.appstate.AppState
 import org.mozilla.fenix.gleanplumb.Message
 import org.mozilla.fenix.gleanplumb.MessagingState
-import org.mozilla.fenix.gleanplumb.NimbusMessagingController
+import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import org.mozilla.fenix.gleanplumb.NimbusMessagingStorage
 import org.mozilla.fenix.nimbus.MessageData
 import org.mozilla.fenix.nimbus.MessageSurfaceId

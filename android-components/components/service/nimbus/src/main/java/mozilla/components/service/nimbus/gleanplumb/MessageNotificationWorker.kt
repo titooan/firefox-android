@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package org.mozilla.fenix.gleanplumb
+package mozilla.components.service.nimbus.gleanplumb
 
 import android.app.Activity
 import android.app.Notification
@@ -13,21 +13,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import mozilla.components.service.nimbus.messaging.FxNimbusMessaging
-import mozilla.components.service.nimbus.messaging.MessageSurfaceId
-import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import mozilla.components.support.base.ids.SharedIdsHelper
-import org.mozilla.fenix.ext.areNotificationsEnabledSafe
-import org.mozilla.fenix.ext.components
-import org.mozilla.fenix.onboarding.ensureMarketingChannelExists
-import org.mozilla.fenix.utils.BootUtils
-import org.mozilla.fenix.utils.IntentUtils
-import org.mozilla.fenix.utils.createBaseNotification
+import mozilla.components.support.utils.PendingIntentUtils
+import mozilla.components.support.utils.BootUtils
 import java.util.concurrent.TimeUnit
 
 const val CLICKED_MESSAGE_ID = "clickedMessageId"
@@ -39,24 +36,20 @@ const val DISMISSED_MESSAGE_ID = "dismissedMessageId"
  * if it has not already been displayed.
  */
 class MessageNotificationWorker(
-    context: Context,
+    val context: Context,
+    private val messagingStorage: NimbusMessagingStorage,
+    private val notificationBuilder: (Context, Message, PendingIntent, PendingIntent) -> Notification,
     workerParameters: WorkerParameters,
 ) : Worker(context, workerParameters) {
 
     @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage.
     override fun doWork(): Result {
         GlobalScope.launch(Dispatchers.IO) {
-            val context = applicationContext
-            val nm = NotificationManagerCompat.from(context)
-            if (!nm.areNotificationsEnabledSafe()) {
-                return@launch
-            }
-
-            val messagingStorage = context.components.analytics.messagingStorage
             val messages = messagingStorage.getMessages()
             val nextMessage =
-                messagingStorage.getNextMessage(MessageSurfaceId.NOTIFICATION, messages)
+                messagingStorage.getNextMessage("notification", messages)
                     ?: return@launch
+            //MessageSurfaceId -> probably not shareable, because specific to Fenix
 
             val currentBootUniqueIdentifier = BootUtils.getBootIdentifier(context)
             val messageMetadata = nextMessage.metadata
@@ -75,7 +68,7 @@ class MessageNotificationWorker(
                 )
             nimbusMessagingController.onMessageDisplayed(updatedMessage)
 
-            nm.notify(
+            NotificationManagerCompat.from(context).notify(
                 MESSAGE_TAG,
                 SharedIdsHelper.getIdForTag(context, updatedMessage.id),
                 buildNotification(
@@ -95,11 +88,9 @@ class MessageNotificationWorker(
         val onClickPendingIntent = createOnClickPendingIntent(context, message)
         val onDismissPendingIntent = createOnDismissPendingIntent(context, message)
 
-        return createBaseNotification(
+        return notificationBuilder(
             context,
-            ensureMarketingChannelExists(context),
-            message.data.title,
-            message.data.text,
+            message,
             onClickPendingIntent,
             onDismissPendingIntent,
         )
@@ -118,7 +109,7 @@ class MessageNotificationWorker(
             context,
             SharedIdsHelper.getNextIdForTag(context, NOTIFICATION_PENDING_INTENT_TAG),
             intent,
-            IntentUtils.defaultIntentPendingFlags,
+            PendingIntentUtils.defaultFlags,
         )
     }
 
@@ -134,7 +125,7 @@ class MessageNotificationWorker(
             context,
             SharedIdsHelper.getNextIdForTag(context, NOTIFICATION_PENDING_INTENT_TAG),
             intent,
-            IntentUtils.defaultIntentPendingFlags,
+            PendingIntentUtils.defaultFlags,
         )
     }
 
@@ -147,7 +138,7 @@ class MessageNotificationWorker(
          * Initialize the [Worker] to begin polling Nimbus.
          */
         fun setMessageNotificationWorker(context: Context) {
-            val featureConfig = FxNimbusMessaging.features.messaging.value()
+            val featureConfig = FxNimbus.features.messaging.value()
             val notificationConfig = featureConfig.notificationConfig
             val pollingInterval = notificationConfig.refreshInterval.toLong()
 
@@ -188,7 +179,7 @@ class NotificationDismissedService : Service() {
         GlobalScope.launch {
             if (intent != null) {
                 val nimbusMessagingController =
-                    NimbusMessagingController(applicationContext.components.analytics.messagingStorage)
+                    NimbusMessagingController(messagingStorage)
 
                 // Get the relevant message.
                 val messageId = intent.getStringExtra(DISMISSED_MESSAGE_ID)!!
@@ -211,7 +202,7 @@ class NotificationDismissedService : Service() {
  *
  * This [Activity] is only intended to be used by the [MessageNotificationWorker.createOnClickPendingIntent] function.
  */
-class NotificationClickedReceiverActivity : Activity() {
+abstract class NotificationClickedReceiverActivity : Activity() {
 
     @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage.
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -219,7 +210,7 @@ class NotificationClickedReceiverActivity : Activity() {
 
         GlobalScope.launch {
             val nimbusMessagingController =
-                NimbusMessagingController(components.analytics.messagingStorage)
+                NimbusMessagingController(messagingStorage)
 
             // Get the relevant message.
             val messageId = intent.getStringExtra(CLICKED_MESSAGE_ID)!!

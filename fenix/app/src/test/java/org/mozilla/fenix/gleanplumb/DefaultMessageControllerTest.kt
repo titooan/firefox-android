@@ -8,6 +8,7 @@ import androidx.core.net.toUri
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import mozilla.components.support.test.robolectric.testContext
 import mozilla.telemetry.glean.testing.GleanTestRule
 import org.junit.Before

@@ -5,6 +5,7 @@
 package org.mozilla.fenix.gleanplumb
 
 import android.content.Intent
+import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.components.AppStore
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.MessageClicked
