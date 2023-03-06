@@ -6,16 +6,16 @@ package org.mozilla.fenix.gleanplumb
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import mozilla.components.service.nimbus.messaging.ControlMessageBehavior
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
+import mozilla.components.service.nimbus.messaging.Messaging
+import mozilla.components.service.nimbus.messaging.StyleData
 import mozilla.components.support.base.log.logger.Logger
 import org.json.JSONObject
 import org.mozilla.experiments.nimbus.GleanPlumbInterface
 import org.mozilla.experiments.nimbus.GleanPlumbMessageHelper
 import org.mozilla.experiments.nimbus.internal.FeatureHolder
 import org.mozilla.experiments.nimbus.internal.NimbusException
-import org.mozilla.fenix.nimbus.ControlMessageBehavior
-import org.mozilla.fenix.nimbus.MessageSurfaceId
-import org.mozilla.fenix.nimbus.Messaging
-import org.mozilla.fenix.nimbus.StyleData
 
 /**
  * This ID must match the name given in the `nimbus.fml.yaml` file, which

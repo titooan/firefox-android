@@ -4,9 +4,9 @@
 
 package org.mozilla.fenix.gleanplumb
 
-import org.mozilla.fenix.nimbus.MessageData
-import org.mozilla.fenix.nimbus.MessageSurfaceId
-import org.mozilla.fenix.nimbus.StyleData
+import mozilla.components.service.nimbus.messaging.MessageData
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
+import mozilla.components.service.nimbus.messaging.StyleData
 
 /**
  * A data class that holds a representation of GleanPlum message from Nimbus.
