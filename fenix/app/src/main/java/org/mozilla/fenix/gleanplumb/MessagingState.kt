@@ -4,7 +4,7 @@
 
 package org.mozilla.fenix.gleanplumb
 
-import org.mozilla.fenix.nimbus.MessageSurfaceId
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 
 /**
  * Represent all the state related to the Messaging framework.

@@ -9,8 +9,9 @@ channels:
   - beta
   - nightly
   - developer
-includes:
-  - ./messaging.fml.yaml
+#import:
+#  - path: ../android-components/components/service/nimbus/messaging.fml.yaml
+#    channel: release
 features:
   homescreen:
     description: The homescreen that the user goes to when they press home or new tab.

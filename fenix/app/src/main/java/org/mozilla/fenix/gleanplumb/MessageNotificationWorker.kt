@@ -13,20 +13,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import mozilla.components.service.nimbus.messaging.FxNimbusMessaging
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 import mozilla.components.support.base.ids.SharedIdsHelper
 import org.mozilla.fenix.ext.areNotificationsEnabledSafe
 import org.mozilla.fenix.ext.components
-import org.mozilla.fenix.nimbus.FxNimbus
-import org.mozilla.fenix.nimbus.MessageSurfaceId
 import org.mozilla.fenix.onboarding.ensureMarketingChannelExists
 import org.mozilla.fenix.utils.BootUtils
 import org.mozilla.fenix.utils.IntentUtils
@@ -150,7 +146,7 @@ class MessageNotificationWorker(
          * Initialize the [Worker] to begin polling Nimbus.
          */
         fun setMessageNotificationWorker(context: Context) {
-            val featureConfig = FxNimbus.features.messaging.value()
+            val featureConfig = FxNimbusMessaging.features.messaging.value()
             val notificationConfig = featureConfig.notificationConfig
             val pollingInterval = notificationConfig.refreshInterval.toLong()
 

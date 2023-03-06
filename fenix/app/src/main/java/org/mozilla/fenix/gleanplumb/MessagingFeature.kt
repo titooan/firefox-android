@@ -4,10 +4,10 @@
 
 package org.mozilla.fenix.gleanplumb
 
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 import mozilla.components.support.base.feature.LifecycleAwareFeature
 import org.mozilla.fenix.components.AppStore
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction
-import org.mozilla.fenix.nimbus.MessageSurfaceId
 
 /**
  * A message observer that updates the provided.

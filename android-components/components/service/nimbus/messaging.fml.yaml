@@ -1,4 +1,12 @@
 ---
+about:
+  description: Nimbus Feature Manifest for Fenix (Firefox Android)
+  kotlin:
+    package: mozilla.components.service.nimbus
+    class: .messaging.FxNimbusMessaging
+channels:
+  - release
+  - debug
 features:
   nimbus-system:
     description: |
@@ -136,14 +144,14 @@ features:
             NOTIFICATION:
               priority: 50
               max-display-count: 1
-          messages:
-            default-browser:
-              text: default_browser_experiment_card_text
-              surface: homescreen
-              action: "MAKE_DEFAULT_BROWSER"
-              trigger: [ "I_AM_NOT_DEFAULT_BROWSER","USER_ESTABLISHED_INSTALL" ]
-              style: "PERSISTENT"
-              button-label: preferences_set_as_default_browser
+#          messages:
+#            default-browser:
+#              text: default_browser_experiment_card_text
+#              surface: homescreen
+#              action: "MAKE_DEFAULT_BROWSER"
+#              trigger: [ "I_AM_NOT_DEFAULT_BROWSER","USER_ESTABLISHED_INSTALL" ]
+#              style: "PERSISTENT"
+#              button-label: preferences_set_as_default_browser
 
       - channel: debug
         value:
@@ -156,16 +164,16 @@ features:
               max-display-count: 1
           notification-config:
             refresh-interval: 120 # minutes (2 hours)
-          messages:
-            default-browser-notification:
-              title: preferences_set_as_default_browser
-              text: default_browser_experiment_card_text
-              surface: notification
-              style: NOTIFICATION
-              action: MAKE_DEFAULT_BROWSER
-              trigger:
-                - I_AM_NOT_DEFAULT_BROWSER
-                - INACTIVE_2_DAYS
+#          messages:
+#            default-browser-notification:
+#              title: preferences_set_as_default_browser
+#              text: default_browser_experiment_card_text
+#              surface: notification
+#              style: NOTIFICATION
+#              action: MAKE_DEFAULT_BROWSER
+#              trigger:
+#                - I_AM_NOT_DEFAULT_BROWSER
+#                - INACTIVE_2_DAYS
 
 objects:
   MessageData:
@@ -181,7 +189,7 @@ objects:
           A URL of a page or a deeplink.
           This may have substitution variables in.
         # This should never be defaulted.
-        default: empty_string
+        default: ""
       title:
         type: Option<Text>
         description: "The title text displayed to the user"
@@ -190,7 +198,7 @@ objects:
         type: Text
         description: "The message text displayed to the user"
         # This should never be defaulted.
-        default: empty_string
+        default: ""
       is-control:
         type: Boolean
         description: "Indicates if this message is the control message, if true shouldn't be displayed"
