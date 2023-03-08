@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import mozilla.components.feature.tab.collections.TabCollection
 import mozilla.components.feature.top.sites.TopSite
+import mozilla.components.service.nimbus.messaging.Message
 import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 import mozilla.components.service.pocket.PocketStory
 import org.mozilla.fenix.components.appstate.AppAction
@@ -19,7 +20,6 @@ import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.ext.shouldShowRecentSyncedTabs
 import org.mozilla.fenix.ext.shouldShowRecentTabs
-import org.mozilla.fenix.gleanplumb.Message
 import org.mozilla.fenix.home.Mode
 import org.mozilla.fenix.home.OnboardingState
 import org.mozilla.fenix.home.recentbookmarks.RecentBookmark

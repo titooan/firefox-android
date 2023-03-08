@@ -74,6 +74,7 @@ import mozilla.components.feature.top.sites.TopSitesProviderConfig
 import mozilla.components.lib.state.ext.consumeFlow
 import mozilla.components.lib.state.ext.consumeFrom
 import mozilla.components.service.glean.private.NoExtras
+import mozilla.components.service.nimbus.messaging.NimbusMessagingController
 import mozilla.components.support.base.feature.ViewBoundFeatureWrapper
 import mozilla.components.support.ktx.android.content.getColorFromAttr
 import mozilla.components.support.ktx.android.content.res.resolveAttribute
@@ -105,7 +106,6 @@ import org.mozilla.fenix.ext.scaleToBottomOfView
 import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.gleanplumb.DefaultMessageController
 import org.mozilla.fenix.gleanplumb.MessagingFeature
-import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
 import org.mozilla.fenix.home.mozonline.showPrivacyPopWindow
 import org.mozilla.fenix.home.pocket.DefaultPocketStoriesController
 import org.mozilla.fenix.home.pocket.PocketRecommendedStoriesCategory

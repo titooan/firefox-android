@@ -6,6 +6,7 @@ package org.mozilla.fenix.gleanplumb
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat
+import mozilla.components.service.nimbus.messaging.MessagingAttributeProvider
 import org.json.JSONObject
 import org.mozilla.fenix.ext.areNotificationsEnabledSafe
 import org.mozilla.fenix.ext.settings
@@ -18,7 +19,7 @@ import java.util.Locale
  * Custom attributes that the messaging framework will use to evaluate if message is eligible
  * to be shown.
  */
-object CustomAttributeProvider {
+object CustomAttributeProvider: MessagingAttributeProvider {
     private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
     /**
@@ -48,7 +49,7 @@ object CustomAttributeProvider {
      *
      * This is used to drive display triggers of messages.
      */
-    fun getCustomAttributes(context: Context): JSONObject {
+    override fun getCustomAttributes(context: Context): JSONObject {
         val now = Calendar.getInstance()
         val settings = context.settings()
         return JSONObject(

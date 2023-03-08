@@ -19,8 +19,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mozilla.components.service.nimbus.messaging.FxNimbusMessaging
+import mozilla.components.service.nimbus.messaging.Message
 import mozilla.components.service.nimbus.messaging.MessageSurfaceId
-import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
+import mozilla.components.service.nimbus.messaging.NimbusMessagingController
 import mozilla.components.support.base.ids.SharedIdsHelper
 import org.mozilla.fenix.ext.areNotificationsEnabledSafe
 import org.mozilla.fenix.ext.components

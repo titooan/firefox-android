@@ -22,6 +22,7 @@ object Versions {
     const val robolectric = "4.9.2"
     const val mockito = "3.12.4"
     const val maven_ant_tasks = "2.1.3"
+    const val mockk = "1.12.0"
 
     // TO-DO: These could be kept in sync in the future
     const val mockwebserver = "3.10.0"
@@ -108,6 +109,8 @@ object ComponentsDependencies {
     const val testing_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     const val testing_maven_ant_tasks = "org.apache.maven:maven-ant-tasks:${Versions.maven_ant_tasks}"
     const val testing_leakcanary = "com.squareup.leakcanary:leakcanary-android-instrumentation:${Versions.leakcanary}"
+    const val testing_mockk = "io.mockk:mockk:${Versions.mockk}"
+    const val testing_mockk_android = "io.mockk:mockk-android:${Versions.mockk}"
 
     const val androidx_activity_compose = "androidx.activity:activity-compose:${Versions.AndroidX.activityCompose}"
     const val androidx_annotation = "androidx.annotation:annotation:${Versions.AndroidX.annotation}"

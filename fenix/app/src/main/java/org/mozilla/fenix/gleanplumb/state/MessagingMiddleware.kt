@@ -9,18 +9,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import mozilla.components.lib.state.Middleware
 import mozilla.components.lib.state.MiddlewareContext
+import mozilla.components.service.nimbus.messaging.Message
+import mozilla.components.service.nimbus.messaging.NimbusMessagingController
+import mozilla.components.service.nimbus.messaging.NimbusMessagingStorage
 import org.mozilla.fenix.components.appstate.AppAction
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.ConsumeMessageToShow
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.Evaluate
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.MessageClicked
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.MessageDismissed
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.Restore
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.UpdateMessageToShow
-import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.UpdateMessages
+import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.*
 import org.mozilla.fenix.components.appstate.AppState
-import org.mozilla.fenix.gleanplumb.Message
-import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
-import org.mozilla.fenix.gleanplumb.NimbusMessagingStorage
 
 typealias AppStoreMiddlewareContext = MiddlewareContext<AppState, AppAction>
 

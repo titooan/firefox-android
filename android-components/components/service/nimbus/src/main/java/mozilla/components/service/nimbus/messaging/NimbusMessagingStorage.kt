@@ -2,14 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package org.mozilla.fenix.gleanplumb
+package mozilla.components.service.nimbus.messaging
 
 import android.content.Context
 import androidx.annotation.VisibleForTesting
-import mozilla.components.service.nimbus.messaging.ControlMessageBehavior
-import mozilla.components.service.nimbus.messaging.MessageSurfaceId
-import mozilla.components.service.nimbus.messaging.Messaging
-import mozilla.components.service.nimbus.messaging.StyleData
 import mozilla.components.support.base.log.logger.Logger
 import org.json.JSONObject
 import org.mozilla.experiments.nimbus.GleanPlumbInterface
@@ -39,7 +35,7 @@ class NimbusMessagingStorage(
     private val reportMalformedMessage: (String) -> Unit,
     private val gleanPlumb: GleanPlumbInterface,
     private val messagingFeature: FeatureHolder<Messaging>,
-    private val attributeProvider: CustomAttributeProvider? = null,
+    private val attributeProvider: MessagingAttributeProvider? = null,
 ) {
     /**
      * Contains all malformed messages where they key can be the value or a trigger of the message
@@ -48,7 +44,7 @@ class NimbusMessagingStorage(
     @VisibleForTesting
     internal val malFormedMap = mutableMapOf<String, String>()
     private val logger = Logger("MessagingStorage")
-    private val nimbusFeature = messagingFeature
+    private val nimbusFeature = messagingFeature.value()
     private val customAttributes: JSONObject
         get() = attributeProvider?.getCustomAttributes(context) ?: JSONObject()
 
@@ -56,12 +52,11 @@ class NimbusMessagingStorage(
      * Returns a list of available messages descending sorted by their priority.
      */
     suspend fun getMessages(): List<Message> {
-        val featureValue = messagingFeature.value()
-        val nimbusTriggers = featureValue.triggers
-        val nimbusStyles = featureValue.styles
-        val nimbusActions = featureValue.actions
+        val nimbusTriggers = nimbusFeature.triggers
+        val nimbusStyles = nimbusFeature.styles
+        val nimbusActions = nimbusFeature.actions
 
-        val nimbusMessages = featureValue.messages
+        val nimbusMessages = nimbusFeature.messages
         val defaultStyle = StyleData()
         val storageMetadata = metadataStorage.getMetadata()
 
@@ -97,7 +92,7 @@ class NimbusMessagingStorage(
         } ?: return null
 
         // Check this isn't an experimental message. If not, we can go ahead and return it.
-        if (!isMessageUnderExperiment(message, nimbusFeature.value().messageUnderExperiment)) {
+        if (!isMessageUnderExperiment(message, nimbusFeature.messageUnderExperiment)) {
             return message
         }
         // If the message is under experiment, then we need to record the exposure
@@ -233,7 +228,7 @@ class NimbusMessagingStorage(
     }
 
     @VisibleForTesting
-    internal fun getOnControlBehavior(): ControlMessageBehavior = nimbusFeature.value().onControl
+    internal fun getOnControlBehavior(): ControlMessageBehavior = nimbusFeature.onControl
 
     private suspend fun addMetadata(id: String): Message.Metadata {
         return metadataStorage.addMetadata(

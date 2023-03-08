@@ -4,6 +4,8 @@
 
 package org.mozilla.fenix.gleanplumb
 
+import mozilla.components.service.nimbus.messaging.Message
+
 /**
  * Controls all the interactions with a [Message].
  */

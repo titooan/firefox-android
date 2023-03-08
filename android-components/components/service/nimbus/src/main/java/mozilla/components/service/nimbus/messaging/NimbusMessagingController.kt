@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package mozilla.components.service.nimbus.gleanplumb
+package mozilla.components.service.nimbus.messaging
 
 import android.content.Intent
 import android.net.Uri
@@ -14,7 +14,7 @@ import androidx.core.net.toUri
 class NimbusMessagingController(
     private val messagingStorage: NimbusMessagingStorage,
     private val now: () -> Long = { System.currentTimeMillis() },
-    private val deepLinkScheme: String
+    private val deepLinkScheme: String = ""
 ) {
     /**
      * Called when a message is just about to be shown to the user.
@@ -101,21 +101,26 @@ class NimbusMessagingController(
     }
 
     private fun sendDismissedMessageTelemetry(messageId: String) {
+        println(messageId)
     //TODO find a way to workaround this dependency to Fenix
     //Messaging.messageDismissed.record(Messaging.MessageDismissedExtra(messageId))
     }
 
     private fun sendShownMessageTelemetry(messageId: String) {
+        println(messageId)
         //TODO find a way to workaround this dependency to Fenix
 //        Messaging.messageShown.record(Messaging.MessageShownExtra(messageId))
     }
 
     private fun sendExpiredMessageTelemetry(messageId: String) {
+        println(messageId)
         //TODO find a way to workaround this dependency to Fenix
 //        Messaging.messageExpired.record(Messaging.MessageExpiredExtra(messageId))
     }
 
     private fun sendClickedMessageTelemetry(messageId: String, uuid: String?) {
+        println(messageId)
+        println(uuid)
         //TODO find a way to workaround this dependency to Fenix
 /*        Messaging.messageClicked.record(
             Messaging.MessageClickedExtra(messageKey = messageId, actionUuid = uuid),

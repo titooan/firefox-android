@@ -4,6 +4,7 @@
 
 package org.mozilla.fenix.gleanplumb
 
+import mozilla.components.service.nimbus.messaging.Message
 import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 
 /**
