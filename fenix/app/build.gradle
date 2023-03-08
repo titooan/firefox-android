@@ -186,12 +186,6 @@ android {
         androidTest {
             resources.srcDirs += ['src/androidTest/resources']
         }
-
-        main {
-            kotlin {
-                srcDirs += new File(buildDir, "generated/source/nimbus")
-            }
-        }
     }
 
     splits {
@@ -457,6 +451,7 @@ nimbus {
     // It will be fetched by Experimenter (the Nimbus experiment website)
     // and used to inform experiment configuration.
     experimenterManifest = ".experimenter.yaml"
+    applicationServicesDir = "../../application-services"
 }
 configurations {
     // There's an interaction between Gradle's resolution of dependencies with different types

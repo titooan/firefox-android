@@ -5,6 +5,7 @@ import org.mozilla.fenix.gradle.tasks.GithubDetailsTask
 buildscript {
     // This logic is duplicated in the allprojects block: I don't know how to fix that.
     repositories {
+        mavenLocal()
         maven {
             name "Mozilla Nightly"
             url "https://nightly.maven.mozilla.org/maven2"
@@ -59,7 +60,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.mozilla.appservices:tooling-nimbus-gradle:${Versions.mozilla_appservices}"
+        classpath "org.mozilla.appservices:tooling-nimbus-gradle:0.0.1-SNAPSHOT-1678205537595570000"
 
         classpath FenixDependencies.tools_androidgradle
         classpath FenixDependencies.tools_kotlingradle
@@ -94,6 +95,7 @@ plugins {
 allprojects {
     // This logic is duplicated in the buildscript block: I don't know how to fix that.
     repositories {
+        mavenLocal()
         maven {
             name "Mozilla Nightly"
             url "https://nightly.maven.mozilla.org/maven2"

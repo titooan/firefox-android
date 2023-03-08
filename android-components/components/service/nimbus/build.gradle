@@ -4,6 +4,7 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         maven {
             url "https://maven.mozilla.org/maven2"
         }
@@ -34,14 +35,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             consumerProguardFiles 'proguard-rules-consumer.pro'
-        }
-    }
-
-    sourceSets {
-        main {
-            kotlin {
-                srcDirs += new File(buildDir, "generated/source/nimbus")
-            }
         }
     }
 }
@@ -98,6 +91,5 @@ nimbus {
     // This is an optional value, and updates the plugin to use a copy of application
     // services. The path should be relative to the root project directory.
     // *NOTE*: This example will not work for all projects, but should work for Fenix, Focus, and Android Components
-    applicationServicesDir = gradle.hasProperty('localProperties.autoPublish.application-services.dir')
-            ? gradle.getProperty('localProperties.autoPublish.application-services.dir') : null
+    applicationServicesDir = "../../application-services"
 }
