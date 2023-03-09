@@ -43,6 +43,7 @@ dependencies {
     testImplementation ComponentsDependencies.testing_coroutines
     testImplementation ComponentsDependencies.testing_mockito
     testImplementation ComponentsDependencies.testing_robolectric
+    testImplementation ComponentsDependencies.testing_mockk
 }
 
 apply from: '../../../android-lint.gradle'

@@ -20,6 +20,7 @@ import org.mozilla.experiments.nimbus.internal.NimbusException
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 class NimbusMessagingStorageTest {
     private lateinit var storage: NimbusMessagingStorage
     private lateinit var metadataStorage: MessageMetadataStorage

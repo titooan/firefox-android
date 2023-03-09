@@ -4,15 +4,17 @@ import android.os.Build
 import io.mockk.every
 import io.mockk.mockk
 import mozilla.components.support.test.robolectric.testContext
+import mozilla.components.support.utils.BootUtils.Companion.getBootIdentifier
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mozilla.fenix.helpers.FenixRobolectricTestRunner
-import org.mozilla.fenix.utils.BootUtils.Companion.getBootIdentifier
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-@RunWith(FenixRobolectricTestRunner::class)
+private const val NO_BOOT_IDENTIFIER = "no boot identifier available"
+
+@RunWith(RobolectricTestRunner::class)
 class BootUtilsTest {
 
     private lateinit var bootUtils: BootUtils

@@ -23,10 +23,10 @@ import mozilla.components.service.nimbus.messaging.Message
 import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 import mozilla.components.service.nimbus.messaging.NimbusMessagingController
 import mozilla.components.support.base.ids.SharedIdsHelper
+import mozilla.components.support.utils.BootUtils
 import org.mozilla.fenix.ext.areNotificationsEnabledSafe
 import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.onboarding.ensureMarketingChannelExists
-import org.mozilla.fenix.utils.BootUtils
 import org.mozilla.fenix.utils.IntentUtils
 import org.mozilla.fenix.utils.createBaseNotification
 import java.util.concurrent.TimeUnit

@@ -23,6 +23,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
+@kotlinx.coroutines.ExperimentalCoroutinesApi
 class OnDiskMessageMetadataStorageTest {
 
     private lateinit var storage: OnDiskMessageMetadataStorage

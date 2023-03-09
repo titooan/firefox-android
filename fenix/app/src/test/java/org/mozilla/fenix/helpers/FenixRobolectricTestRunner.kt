@@ -32,4 +32,5 @@ import org.robolectric.RobolectricTestRunner
  *
  * As a result, new tests should use RobolectricTestRunner.
  */
+@Deprecated("This class is now deprecated as the configuration is set by robolectric.properties instead")
 class FenixRobolectricTestRunner(testClass: Class<*>) : RobolectricTestRunner(testClass)
