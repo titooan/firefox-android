@@ -414,6 +414,7 @@ class BrowserRobot {
             mDevice.findObject(
                 UiSelector().resourceId("$packageName:id/feature_prompt_login_fragment"),
             ),
+            waitingTime,
         )
         mDevice.findObject(text(optionToSaveLogin)).click()
     }
@@ -494,7 +495,7 @@ class BrowserRobot {
         setPageObjectText(webPageItemWithResourceId("password"), password)
         clickPageObject(webPageItemWithResourceId("submit"))
 
-        mDevice.waitForObjects(mDevice.findObject(UiSelector().resourceId("$packageName:id/save_confirm")))
+        mDevice.waitForObjects(mDevice.findObject(UiSelector().resourceId("$packageName:id/save_confirm")), waitingTime)
     }
 
     fun clearUserNameLoginCredential() {
@@ -1007,6 +1008,12 @@ class BrowserRobot {
                 it.click()
             }
 
+    fun verifyFindInPageBar(exists: Boolean) =
+        assertItemWithResIdExists(
+            itemWithResId("$packageName:id/findInPageView"),
+            exists = exists,
+        )
+
     class Transition {
         private fun threeDotButton() = onView(
             allOf(
@@ -1025,9 +1032,10 @@ class BrowserRobot {
         }
 
         fun openNavigationToolbar(interact: NavigationToolbarRobot.() -> Unit): NavigationToolbarRobot.Transition {
-            mDevice.findObject(UiSelector().resourceId("$packageName:id/toolbar"))
-                .waitForExists(waitingTime)
+            navURLBar().waitForExists(waitingTime)
             navURLBar().click()
+            mDevice.findObject(UiSelector().resourceId("$packageName:id/mozac_browser_toolbar_url_view"))
+                .waitForExists(waitingTime)
 
             NavigationToolbarRobot().interact()
             return NavigationToolbarRobot.Transition()
@@ -1346,7 +1354,8 @@ private fun setPageObjectText(webPageItem: UiObject, text: String) {
         try {
             webPageItem.also {
                 it.waitForExists(waitingTime)
-                it.setText(text)
+                it.clearTextField()
+                it.text = text
             }
 
             break
