@@ -9,6 +9,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.advanceUntilIdle
+import mozilla.components.service.nimbus.messaging.*
 import mozilla.components.support.test.libstate.ext.waitUntilIdle
 import mozilla.components.support.test.rule.MainCoroutineRule
 import mozilla.components.support.test.rule.runTestOnMain
@@ -23,13 +24,8 @@ import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.MessageCl
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.MessageDismissed
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction.Restore
 import org.mozilla.fenix.components.appstate.AppState
-import org.mozilla.fenix.gleanplumb.Message
 import org.mozilla.fenix.gleanplumb.MessagingState
-import mozilla.components.service.nimbus.gleanplumb.NimbusMessagingController
-import org.mozilla.fenix.gleanplumb.NimbusMessagingStorage
-import org.mozilla.fenix.nimbus.MessageData
-import org.mozilla.fenix.nimbus.MessageSurfaceId
-import org.mozilla.fenix.nimbus.StyleData
+
 
 class MessagingMiddlewareTest {
     @get:Rule

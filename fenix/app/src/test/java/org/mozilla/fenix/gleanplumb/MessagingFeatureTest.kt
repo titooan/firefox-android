@@ -12,7 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mozilla.fenix.components.AppStore
 import org.mozilla.fenix.components.appstate.AppAction.MessagingAction
-import org.mozilla.fenix.nimbus.MessageSurfaceId
+import mozilla.components.service.nimbus.messaging.MessageSurfaceId
 
 class MessagingFeatureTest {
     @OptIn(ExperimentalCoroutinesApi::class)

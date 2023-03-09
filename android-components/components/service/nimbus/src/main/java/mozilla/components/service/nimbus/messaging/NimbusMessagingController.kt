@@ -13,8 +13,8 @@ import androidx.core.net.toUri
  */
 class NimbusMessagingController(
     private val messagingStorage: NimbusMessagingStorage,
+    private val deepLinkScheme: String = "",
     private val now: () -> Long = { System.currentTimeMillis() },
-    private val deepLinkScheme: String = ""
 ) {
     /**
      * Called when a message is just about to be shown to the user.
