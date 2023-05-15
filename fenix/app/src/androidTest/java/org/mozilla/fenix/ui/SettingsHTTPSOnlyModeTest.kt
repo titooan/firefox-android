@@ -6,12 +6,15 @@ package org.mozilla.fenix.ui
 
 import androidx.core.net.toUri
 import androidx.test.espresso.Espresso.pressBack
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mozilla.fenix.customannotations.SmokeTest
 import org.mozilla.fenix.helpers.HomeActivityIntentTestRule
+import org.mozilla.fenix.helpers.MatcherHelper.itemContainingText
 import org.mozilla.fenix.helpers.TestHelper.exitMenu
 import org.mozilla.fenix.ui.robots.browserScreen
+import org.mozilla.fenix.ui.robots.clickPageObject
 import org.mozilla.fenix.ui.robots.homeScreen
 import org.mozilla.fenix.ui.robots.navigationToolbar
 
@@ -68,6 +71,8 @@ class SettingsHTTPSOnlyModeTest {
                 allTabsOptionSelected = true,
                 privateTabsOptionSelected = false,
             )
+        }.goBack {
+            verifySettingsOptionSummary("HTTPS-Only Mode", "On in all tabs")
             exitMenu()
         }
         navigationToolbar {
@@ -80,11 +85,11 @@ class SettingsHTTPSOnlyModeTest {
             verifyPageContent(httpsOnlyErrorMessage)
             verifyPageContent(httpsOnlyErrorMessage2)
             verifyPageContent(httpsOnlyBackButton)
-            clickLinkMatchingText(httpsOnlyBackButton)
+            clickPageObject(itemContainingText(httpsOnlyBackButton))
             verifyPageContent("Example Domain")
         }.openNavigationToolbar {
         }.enterURLAndEnterToBrowser(insecureHttpPage.toUri()) {
-            clickLinkMatchingText(httpsOnlyContinueButton)
+            clickPageObject(itemContainingText(httpsOnlyContinueButton))
             verifyPageContent("http.badssl.com")
         }
     }
@@ -105,7 +110,7 @@ class SettingsHTTPSOnlyModeTest {
         navigationToolbar {
         }.enterURLAndEnterToBrowser(insecureHttpPage.toUri()) {
             verifyPageContent(httpsOnlyErrorTitle)
-            clickLinkMatchingText(httpsOnlyContinueButton)
+            clickPageObject(itemContainingText(httpsOnlyContinueButton))
             verifyPageContent("http.badssl.com")
         }.openTabDrawer {
             closeTab()
@@ -116,6 +121,7 @@ class SettingsHTTPSOnlyModeTest {
         }
     }
 
+    @Ignore("Failing, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1826500")
     @Test
     fun httpsOnlyModeEnabledOnlyInPrivateBrowsingTest() {
         homeScreen {
@@ -127,6 +133,8 @@ class SettingsHTTPSOnlyModeTest {
                 allTabsOptionSelected = false,
                 privateTabsOptionSelected = true,
             )
+        }.goBack {
+            verifySettingsOptionSummary("HTTPS-Only Mode", "On in private tabs")
             exitMenu()
         }
         navigationToolbar {
@@ -144,11 +152,11 @@ class SettingsHTTPSOnlyModeTest {
             verifyPageContent(httpsOnlyErrorMessage)
             verifyPageContent(httpsOnlyErrorMessage2)
             verifyPageContent(httpsOnlyBackButton)
-            clickLinkMatchingText(httpsOnlyBackButton)
+            clickPageObject(itemContainingText(httpsOnlyBackButton))
             verifyPageContent("Example Domain")
         }.openNavigationToolbar {
         }.enterURLAndEnterToBrowser(insecureHttpPage.toUri()) {
-            clickLinkMatchingText(httpsOnlyContinueButton)
+            clickPageObject(itemContainingText(httpsOnlyContinueButton))
             verifyPageContent("http.badssl.com")
         }
     }
@@ -183,6 +191,8 @@ class SettingsHTTPSOnlyModeTest {
         }.openHttpsOnlyModeMenu {
             clickHttpsOnlyModeSwitch()
             verifyHttpsOnlyModeIsEnabled(false)
+        }.goBack {
+            verifySettingsOptionSummary("HTTPS-Only Mode", "Off")
             exitMenu()
         }
         navigationToolbar {

@@ -7,6 +7,9 @@ package org.mozilla.fenix.home
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import mozilla.components.browser.state.selector.normalTabs
+import mozilla.components.browser.state.selector.privateTabs
+import mozilla.components.browser.state.state.BrowserState
 import mozilla.components.ui.tabcounter.TabCounter
 import mozilla.components.ui.tabcounter.TabCounterMenu
 import mozilla.telemetry.glean.private.NoExtras
@@ -16,6 +19,7 @@ import org.mozilla.fenix.browser.browsingmode.BrowsingMode
 import org.mozilla.fenix.browser.browsingmode.BrowsingModeManager
 import org.mozilla.fenix.components.toolbar.FenixTabCounterMenu
 import org.mozilla.fenix.ext.nav
+import org.mozilla.fenix.tabstray.Page
 
 /**
  * Helper class for building the [FenixTabCounterMenu].
@@ -60,9 +64,30 @@ class TabCounterView(
 
             navController.nav(
                 R.id.homeFragment,
-                HomeFragmentDirections.actionGlobalTabsTrayFragment(),
+                HomeFragmentDirections.actionGlobalTabsTrayFragment(
+                    page = when (browsingModeManager.mode) {
+                        BrowsingMode.Normal -> Page.NormalTabs
+                        BrowsingMode.Private -> Page.PrivateTabs
+                    },
+                ),
             )
         }
+    }
+
+    /**
+     * Updates the tab counter count based on the current browser state.
+     *
+     * @param browserState [BrowserState] used to get the current tab count for the current
+     * browsing mode.
+     */
+    fun update(browserState: BrowserState) {
+        val tabCount = if (browsingModeManager.mode.isPrivate) {
+            browserState.privateTabs.size
+        } else {
+            browserState.normalTabs.size
+        }
+
+        tabCounter.setCountWithAnimation(tabCount)
     }
 
     /**

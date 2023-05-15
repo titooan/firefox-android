@@ -71,6 +71,7 @@ import mozilla.components.support.ktx.kotlin.toNormalizedUrl
 import mozilla.components.support.ktx.kotlinx.coroutines.flow.ifAnyChanged
 import mozilla.components.support.ktx.kotlinx.coroutines.flow.ifChanged
 import mozilla.components.ui.autocomplete.InlineAutocompleteEditText
+import mozilla.components.ui.widgets.withCenterAlignedButtons
 import org.mozilla.fenix.BrowserDirection
 import org.mozilla.fenix.GleanMetrics.Awesomebar
 import org.mozilla.fenix.GleanMetrics.VoiceSearch
@@ -240,6 +241,7 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
             fromHomeFragment,
         ).also {
             inlineAutocompleteEditText = it.view.findViewById(R.id.mozac_browser_toolbar_edit_url_view)
+            inlineAutocompleteEditText.increaseTapArea(TAP_INCREASE_DPS_4)
         }
 
         val awesomeBar = binding.awesomeBar
@@ -310,7 +312,7 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
         return binding.root
     }
 
-    @SuppressWarnings("LongMethod")
+    @SuppressWarnings("LongMethod", "ComplexMethod")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -335,7 +337,17 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
 
         // When displayed above browser or home screen, dismisses keyboard when touching scrim area
         when (getPreviousDestination()?.destination?.id) {
-            R.id.browserFragment, R.id.homeFragment -> {
+            R.id.browserFragment -> {
+                binding.searchWrapper.setOnTouchListener { _, _ ->
+                    if (toolbarView.view.url.isEmpty()) {
+                        dismissAllowingStateLoss()
+                    } else {
+                        binding.searchWrapper.hideKeyboard()
+                    }
+                    false
+                }
+            }
+            R.id.homeFragment -> {
                 binding.searchWrapper.setOnTouchListener { _, _ ->
                     binding.searchWrapper.hideKeyboard()
                     false
@@ -663,7 +675,7 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
                             setPositiveButton(R.string.qr_scanner_dialog_invalid_ok) { dialog: DialogInterface, _ ->
                                 dialog.dismiss()
                             }
-                            create()
+                            create().withCenterAlignedButtons()
                         }.show()
                     }
                 } else {
@@ -688,7 +700,7 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
                                 )
                                 dialog.dismiss()
                             }
-                            create()
+                            create().withCenterAlignedButtons()
                         }.show()
                     }
                 }
@@ -994,6 +1006,7 @@ class SearchDialogFragment : AppCompatDialogFragment(), UserInteractionHandler {
 
     companion object {
         private const val TAP_INCREASE_DPS = 8
+        private const val TAP_INCREASE_DPS_4 = 4
         private const val QR_FRAGMENT_TAG = "MOZAC_QR_FRAGMENT"
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 1
     }
