@@ -4,8 +4,10 @@
 
 package mozilla.components.feature.prompts.identitycredential
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,18 +31,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
+import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
 import mozilla.components.support.ktx.kotlin.base64PngToBitmap
-import mozilla.components.ui.colors.PhotonColors
+import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
  * A Federated Credential Management dialog for selecting a provider.
+ * @param providers The list of available providers.
+ * @param colors The colors of the dialog.
+ * @param modifier [Modifier] to be applied to the layout.
+ * @param onProviderClick Called when the user clicks on an item.
  */
 @Composable
 fun SelectProviderDialog(
     providers: List<Provider>,
     modifier: Modifier = Modifier,
+    colors: DialogColors = DialogColors.default(),
     onProviderClick: (Provider) -> Unit,
 ) {
+
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
@@ -46,14 +58,14 @@ fun SelectProviderDialog(
             style = TextStyle(
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
-                color = PhotonColors.DarkGrey90,
+                color = colors.title,
                 letterSpacing = 0.15.sp,
             ),
             modifier = Modifier.padding(16.dp),
         )
 
         providers.forEach { provider ->
-            ProviderItem(provider = provider, onClick = onProviderClick)
+            ProviderItem(provider = provider, onClick = onProviderClick, colors = colors)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -64,12 +76,14 @@ fun SelectProviderDialog(
 private fun ProviderItem(
     provider: Provider,
     modifier: Modifier = Modifier,
+    colors: DialogColors = DialogColors.default(),
     onClick: (Provider) -> Unit,
 ) {
     IdentityCredentialItem(
         title = provider.name,
         description = provider.domain,
         modifier = modifier,
+        colors = colors,
         onClick = { onClick(provider) },
     ) {
         provider.icon?.base64PngToBitmap()?.asImageBitmap()?.let { bitmap ->
@@ -105,25 +119,27 @@ private fun ProviderItemPreview() {
 }
 
 @Composable
-@Preview
+@LightDarkPreview
 private fun SelectProviderDialogPreview() {
-    SelectProviderDialog(
-        providers = listOf(
-            Provider(
-                0,
-                null,
-                "Title",
-                "Description",
+    DialogPreviewMaterialTheme {
+        SelectProviderDialog(
+            providers = listOf(
+                Provider(
+                    0,
+                    null,
+                    "Title",
+                    "Description",
+                ),
+                Provider(
+                    0,
+                    GOOGLE_FAVICON,
+                    "Google",
+                    "google.com",
+                ),
             ),
-            Provider(
-                0,
-                GOOGLE_FAVICON,
-                "Google",
-                "google.com",
-            ),
-        ),
-        modifier = Modifier.background(Color.White),
-    ) { }
+            modifier = Modifier.background(MaterialTheme.colors.background),
+        ) { }
+    }
 }
 
 @Suppress("MaxLineLength")
