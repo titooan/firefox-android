@@ -76,6 +76,9 @@ import mozilla.components.feature.prompts.facts.emitPromptDisplayedFact
 import mozilla.components.feature.prompts.facts.emitSuccessfulAddressAutofillFormDetectedFact
 import mozilla.components.feature.prompts.facts.emitSuccessfulCreditCardAutofillFormDetectedFact
 import mozilla.components.feature.prompts.file.FilePicker
+import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColors
+import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColorsProvider
+import mozilla.components.feature.prompts.identitycredential.IdentityCredentialDefaults
 import mozilla.components.feature.prompts.identitycredential.PrivacyPolicyDialogFragment
 import mozilla.components.feature.prompts.identitycredential.SelectAccountDialogFragment
 import mozilla.components.feature.prompts.identitycredential.SelectProviderDialogFragment
@@ -154,6 +157,7 @@ class PromptFeature private constructor(
     private val store: BrowserStore,
     private var customTabId: String?,
     private val fragmentManager: FragmentManager,
+    private val identityCredentialColorsProvider: IdentityCredentialColorsProvider = IdentityCredentialColorsProvider { IdentityCredentialDefaults.colors() },
     private val tabsUseCases: TabsUseCases,
     private val shareDelegate: ShareDelegate,
     private val exitFullscreenUsecase: ExitFullScreenUseCase = SessionUseCases(store).exitFullscreen,
@@ -197,6 +201,7 @@ class PromptFeature private constructor(
         customTabId: String? = null,
         fragmentManager: FragmentManager,
         tabsUseCases: TabsUseCases,
+        identityCredentialColorsProvider: IdentityCredentialColorsProvider = IdentityCredentialColorsProvider { IdentityCredentialDefaults.colors() },
         shareDelegate: ShareDelegate = DefaultShareDelegate(),
         exitFullscreenUsecase: ExitFullScreenUseCase = SessionUseCases(store).exitFullscreen,
         creditCardValidationDelegate: CreditCardValidationDelegate? = null,
@@ -215,6 +220,7 @@ class PromptFeature private constructor(
         customTabId = customTabId,
         fragmentManager = fragmentManager,
         tabsUseCases = tabsUseCases,
+        identityCredentialColorsProvider = identityCredentialColorsProvider,
         shareDelegate = shareDelegate,
         exitFullscreenUsecase = exitFullscreenUsecase,
         creditCardValidationDelegate = creditCardValidationDelegate,
@@ -912,6 +918,7 @@ class PromptFeature private constructor(
                     promptRequestUID = promptRequest.uid,
                     shouldDismissOnLoad = true,
                     providers = promptRequest.providers,
+                    colorsProvider = identityCredentialColorsProvider
                 )
             }
 
@@ -922,6 +929,7 @@ class PromptFeature private constructor(
                     shouldDismissOnLoad = true,
                     accounts = promptRequest.accounts,
                     provider = promptRequest.provider,
+                    colorsProvider = identityCredentialColorsProvider
                 )
             }
 

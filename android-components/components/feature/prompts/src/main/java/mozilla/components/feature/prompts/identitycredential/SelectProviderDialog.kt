@@ -31,13 +31,20 @@ import mozilla.components.ui.colors.PhotonColors
 
 /**
  * A Federated Credential Management dialog for selecting a provider.
+ * @param providers The list of available providers.
+ * @param colorsProvider Provides [IdentityCredentialColors] that define the colors of the dialog
+ * @param modifier [Modifier] to be applied to the layout.
+ * @param onProviderClick Called when the user clicks on an item.
  */
 @Composable
 fun SelectProviderDialog(
     providers: List<Provider>,
+    colorsProvider: IdentityCredentialColorsProvider,
     modifier: Modifier = Modifier,
     onProviderClick: (Provider) -> Unit,
 ) {
+    val colors = colorsProvider.provideColors()
+
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
@@ -46,14 +53,14 @@ fun SelectProviderDialog(
             style = TextStyle(
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
-                color = PhotonColors.DarkGrey90,
+                color = colors.title,
                 letterSpacing = 0.15.sp,
             ),
             modifier = Modifier.padding(16.dp),
         )
 
         providers.forEach { provider ->
-            ProviderItem(provider = provider, onClick = onProviderClick)
+            ProviderItem(provider = provider, onClick = onProviderClick, colors = colors)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -64,12 +71,14 @@ fun SelectProviderDialog(
 private fun ProviderItem(
     provider: Provider,
     modifier: Modifier = Modifier,
+    colors: IdentityCredentialColors,
     onClick: (Provider) -> Unit,
 ) {
     IdentityCredentialItem(
         title = provider.name,
         description = provider.domain,
         modifier = modifier,
+        colors = colors,
         onClick = { onClick(provider) },
     ) {
         provider.icon?.base64PngToBitmap()?.asImageBitmap()?.let { bitmap ->
@@ -100,6 +109,7 @@ private fun ProviderItemPreview() {
             "Title",
             "Description",
         ),
+        colors = IdentityCredentialDefaults.colors(),
         onClick = {},
     )
 }
@@ -123,6 +133,7 @@ private fun SelectProviderDialogPreview() {
             ),
         ),
         modifier = Modifier.background(Color.White),
+        colorsProvider = IdentityCredentialDefaults.provider()
     ) { }
 }
 

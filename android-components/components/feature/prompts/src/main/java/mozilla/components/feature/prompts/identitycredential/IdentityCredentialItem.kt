@@ -24,10 +24,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import mozilla.components.ui.colors.PhotonColors
 
 /**
- * List item used to display an IdentityCredentials item that supports clicks
+ * List item used to display an IdentityCredential item that supports clicks
  *
  * @param title the Title of the item
  * @param description The Description of the item.
@@ -41,6 +40,7 @@ internal fun IdentityCredentialItem(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
+    colors: IdentityCredentialColors = IdentityCredentialDefaults.colors(),
     onClick: () -> Unit,
     beforeItemContent: (@Composable () -> Unit)? = null,
 ) {
@@ -53,7 +53,7 @@ internal fun IdentityCredentialItem(
             .clickable(
                 onClick = onClick,
                 interactionSource = interactionSource,
-                indication = rememberRipple(color = PhotonColors.Black),
+                indication = rememberRipple(color = colors.ripple),
             )
             .padding(horizontal = 16.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -66,7 +66,7 @@ internal fun IdentityCredentialItem(
                 style = TextStyle(
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
-                    color = PhotonColors.DarkGrey90,
+                    color = colors.title,
                     letterSpacing = 0.15.sp,
                 ),
                 maxLines = 1,
@@ -77,7 +77,7 @@ internal fun IdentityCredentialItem(
                 style = TextStyle(
                     fontSize = 14.sp,
                     lineHeight = 20.sp,
-                    color = PhotonColors.DarkGrey05,
+                    color = colors.description,
                     letterSpacing = 0.25.sp,
                 ),
                 maxLines = 1,

@@ -36,6 +36,7 @@ import mozilla.components.ui.colors.PhotonColors
  * A Federated Credential Management dialog for selecting an account.
  *
  * @param provider The [Provider] on which the user is logging in.
+ * @param colorsProvider Provides [IdentityCredentialColors] that define the colors of the dialog
  * @param accounts The list of available accounts for this provider.
  * @param modifier [Modifier] to be applied to the layout.
  * @param onAccountClick Invoked when the user clicks on an item.
@@ -43,10 +44,13 @@ import mozilla.components.ui.colors.PhotonColors
 @Composable
 fun SelectAccountDialog(
     provider: Provider,
+    colorsProvider: IdentityCredentialColorsProvider,
     accounts: List<Account>,
     modifier: Modifier = Modifier,
     onAccountClick: (Account) -> Unit,
 ) {
+    val colors = colorsProvider.provideColors()
+
     Column(
         modifier = modifier.fillMaxWidth(),
     ) {
@@ -74,14 +78,14 @@ fun SelectAccountDialog(
                 style = TextStyle(
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
-                    color = PhotonColors.DarkGrey90,
+                    color = colors.title,
                     letterSpacing = 0.15.sp,
                 ),
             )
         }
 
         accounts.forEach { account ->
-            AccountItem(account = account, onClick = onAccountClick)
+            AccountItem(account = account, colors = colors, onClick = onAccountClick)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -91,12 +95,14 @@ fun SelectAccountDialog(
 @Composable
 private fun AccountItem(
     account: Account,
+    colors: IdentityCredentialColors,
     modifier: Modifier = Modifier,
     onClick: (Account) -> Unit,
 ) {
     IdentityCredentialItem(
         title = account.name,
         description = account.email,
+        colors = colors,
         modifier = modifier,
         onClick = { onClick(account) },
     ) {
@@ -128,6 +134,7 @@ private fun AccountItemPreview() {
             "User",
             USER_PICTURE,
         ),
+        colors = IdentityCredentialDefaults.colors(),
         onClick = {},
     )
 }
@@ -152,6 +159,7 @@ private fun SelectAccountDialogPreview() {
             ),
         ),
         modifier = Modifier.background(Color.White),
+        colorsProvider = IdentityCredentialDefaults.provider(),
         onAccountClick = { },
     )
 }

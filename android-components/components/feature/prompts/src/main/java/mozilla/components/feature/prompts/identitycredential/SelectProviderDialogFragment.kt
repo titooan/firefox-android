@@ -31,6 +31,8 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
             ?: emptyList()
     }
 
+    private var colorsProvider: IdentityCredentialColorsProvider = IdentityCredentialDefaults.provider()
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
             .setCancelable(true)
@@ -49,6 +51,7 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
                 SelectProviderDialog(
                     providers = providers,
                     onProviderClick = ::onProviderChange,
+                    colorsProvider = colorsProvider
                 )
             }
         }
@@ -71,12 +74,14 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
          * @param promptRequestUID Identifier of the [PromptRequest] for which this dialog is shown.
          * @param providers The list of available providers.
          * @param shouldDismissOnLoad Whether or not the dialog should automatically be dismissed when a new page is loaded.
+         * @param colorsProvider Provides [IdentityCredentialColors] that define the colors in the Dialog
          */
         fun newInstance(
             sessionId: String,
             promptRequestUID: String,
             providers: List<Provider>,
             shouldDismissOnLoad: Boolean,
+            colorsProvider: IdentityCredentialColorsProvider
         ) = SelectProviderDialogFragment().apply {
             arguments = (arguments ?: Bundle()).apply {
                 putString(KEY_SESSION_ID, sessionId)
@@ -84,6 +89,7 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
                 putBoolean(KEY_SHOULD_DISMISS_ON_LOAD, shouldDismissOnLoad)
                 putParcelableArrayList(KEY_PROVIDERS, ArrayList(providers))
             }
+            this.colorsProvider = colorsProvider
         }
     }
 }

@@ -35,6 +35,8 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
         safeArguments.getParcelableArrayListCompat(KEY_ACCOUNTS, Account::class.java) ?: emptyList()
     }
 
+    private var colorsProvider: IdentityCredentialColorsProvider = IdentityCredentialDefaults.provider()
+
     internal val provider: Provider by lazy {
         requireNotNull(
             safeArguments.getParcelableCompat(
@@ -62,6 +64,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
                 SelectAccountDialog(
                     provider = provider,
                     accounts = accounts,
+                    colorsProvider = colorsProvider,
                     onAccountClick = ::onAccountChange,
                 )
             }
@@ -86,6 +89,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
          * @param accounts The list of available accounts.
          * @param provider The provider on which the user is logging in.
          * @param shouldDismissOnLoad Whether or not the dialog should automatically be dismissed when a new page is loaded.
+         * @param colorsProvider Provides [IdentityCredentialColors] that define the colors in the Dialog
          */
         fun newInstance(
             sessionId: String,
@@ -93,6 +97,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
             accounts: List<Account>,
             provider: Provider,
             shouldDismissOnLoad: Boolean,
+            colorsProvider: IdentityCredentialColorsProvider
         ) = SelectAccountDialogFragment().apply {
             arguments = (arguments ?: Bundle()).apply {
                 putString(KEY_SESSION_ID, sessionId)
@@ -101,6 +106,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
                 putParcelableArrayList(KEY_ACCOUNTS, ArrayList(accounts))
                 putParcelable(KEY_PROVIDER, provider)
             }
+            this.colorsProvider = colorsProvider
         }
     }
 }

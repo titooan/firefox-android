@@ -22,6 +22,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.CallSuper
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
@@ -76,6 +79,8 @@ import mozilla.components.feature.prompts.PromptFeature
 import mozilla.components.feature.prompts.PromptFeature.Companion.PIN_REQUEST
 import mozilla.components.feature.prompts.address.AddressDelegate
 import mozilla.components.feature.prompts.creditcard.CreditCardDelegate
+import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColors
+import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColorsProvider
 import mozilla.components.feature.prompts.login.LoginDelegate
 import mozilla.components.feature.prompts.share.ShareDelegate
 import mozilla.components.feature.readerview.ReaderViewFeature
@@ -669,12 +674,21 @@ abstract class BaseBrowserFragment :
             view = view,
         )
 
+        val colorsProvider = IdentityCredentialColorsProvider {
+            IdentityCredentialColors(
+                title = ThemeManager.resolveAttributeColor(attribute = R.attr.textPrimary),
+                description = ThemeManager.resolveAttributeColor(attribute = R.attr.textSecondary),
+                ripple = ThemeManager.resolveAttributeColor(attribute = R.attr.textSecondary),
+            )
+        }
+
         promptsFeature.set(
             feature = PromptFeature(
                 activity = activity,
                 store = store,
                 customTabId = customTabSessionId,
                 fragmentManager = parentFragmentManager,
+                identityCredentialColorsProvider = colorsProvider,
                 tabsUseCases = requireComponents.useCases.tabsUseCases,
                 creditCardValidationDelegate = DefaultCreditCardValidationDelegate(
                     context.components.core.lazyAutofillStorage,
