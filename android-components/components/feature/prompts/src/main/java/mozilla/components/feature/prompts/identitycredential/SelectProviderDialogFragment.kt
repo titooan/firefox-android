@@ -35,7 +35,7 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
             ?: emptyList()
     }
 
-    private var colorsProvider: IdentityCredentialColorsProvider = IdentityCredentialDefaults.provider()
+    private var colorsProvider: DialogColorsProvider = DialogColors.defaultProvider()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
@@ -88,7 +88,7 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
             promptRequestUID: String,
             providers: List<Provider>,
             shouldDismissOnLoad: Boolean,
-            colorsProvider: IdentityCredentialColorsProvider
+            colorsProvider: DialogColorsProvider
         ) = SelectProviderDialogFragment().apply {
             arguments = (arguments ?: Bundle()).apply {
                 putString(KEY_SESSION_ID, sessionId)

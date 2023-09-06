@@ -35,13 +35,16 @@ data class DialogColors(
             title,
             description
         )
+
+        fun defaultProvider() = DialogColorsProvider { default() }
+
     }
 }
 
 /**
- * An [IdentityCredentialColorsProvider] implementation can provide an [DialogColors]
+ * An [DialogColorsProvider] implementation can provide an [DialogColors]
  */
-fun interface IdentityCredentialColorsProvider {
+fun interface DialogColorsProvider {
     @Composable
     fun provideColors(): DialogColors
 }

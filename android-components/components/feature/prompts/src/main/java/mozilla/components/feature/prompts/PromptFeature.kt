@@ -77,8 +77,7 @@ import mozilla.components.feature.prompts.facts.emitSuccessfulAddressAutofillFor
 import mozilla.components.feature.prompts.facts.emitSuccessfulCreditCardAutofillFormDetectedFact
 import mozilla.components.feature.prompts.file.FilePicker
 import mozilla.components.feature.prompts.identitycredential.DialogColors
-import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColorsProvider
-import mozilla.components.feature.prompts.identitycredential.IdentityCredentialDefaults
+import mozilla.components.feature.prompts.identitycredential.DialogColorsProvider
 import mozilla.components.feature.prompts.identitycredential.PrivacyPolicyDialogFragment
 import mozilla.components.feature.prompts.identitycredential.SelectAccountDialogFragment
 import mozilla.components.feature.prompts.identitycredential.SelectProviderDialogFragment
@@ -157,7 +156,7 @@ class PromptFeature private constructor(
     private val store: BrowserStore,
     private var customTabId: String?,
     private val fragmentManager: FragmentManager,
-    private val identityCredentialColorsProvider: IdentityCredentialColorsProvider = IdentityCredentialColorsProvider { DialogColors.default() },
+    private val identityCredentialColorsProvider: DialogColorsProvider = DialogColorsProvider { DialogColors.default() },
     private val tabsUseCases: TabsUseCases,
     private val shareDelegate: ShareDelegate,
     private val exitFullscreenUsecase: ExitFullScreenUseCase = SessionUseCases(store).exitFullscreen,
@@ -201,7 +200,7 @@ class PromptFeature private constructor(
         customTabId: String? = null,
         fragmentManager: FragmentManager,
         tabsUseCases: TabsUseCases,
-        identityCredentialColorsProvider: IdentityCredentialColorsProvider = IdentityCredentialColorsProvider { DialogColors.default() },
+        identityCredentialColorsProvider: DialogColorsProvider = DialogColorsProvider { DialogColors.default() },
         shareDelegate: ShareDelegate = DefaultShareDelegate(),
         exitFullscreenUsecase: ExitFullScreenUseCase = SessionUseCases(store).exitFullscreen,
         creditCardValidationDelegate: CreditCardValidationDelegate? = null,

@@ -37,7 +37,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
         safeArguments.getParcelableArrayListCompat(KEY_ACCOUNTS, Account::class.java) ?: emptyList()
     }
 
-    private var colorsProvider: IdentityCredentialColorsProvider = IdentityCredentialDefaults.provider()
+    private var colorsProvider: DialogColorsProvider = DialogColors.defaultProvider()
 
     internal val provider: Provider by lazy {
         requireNotNull(
@@ -102,7 +102,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
             accounts: List<Account>,
             provider: Provider,
             shouldDismissOnLoad: Boolean,
-            colorsProvider: IdentityCredentialColorsProvider
+            colorsProvider: DialogColorsProvider
         ) = SelectAccountDialogFragment().apply {
             arguments = (arguments ?: Bundle()).apply {
                 putString(KEY_SESSION_ID, sessionId)
