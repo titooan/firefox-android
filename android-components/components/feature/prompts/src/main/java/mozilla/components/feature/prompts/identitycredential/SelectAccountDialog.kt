@@ -29,7 +29,9 @@ import androidx.compose.ui.unit.sp
 import mozilla.components.concept.identitycredential.Account
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
+import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
 import mozilla.components.support.ktx.kotlin.base64PngToBitmap
+import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
  * A Federated Credential Management dialog for selecting an account.
@@ -137,27 +139,29 @@ private fun AccountItemPreview() {
 }
 
 @Composable
-@Preview
+@LightDarkPreview
 private fun SelectAccountDialogPreview() {
-    SelectAccountDialog(
-        provider = Provider(0, GOOGLE_FAVICON, "Google", "google.com"),
-        accounts = listOf(
-            Account(
-                0,
-                "user@mozilla.com",
-                "User",
-                USER_PICTURE,
+    DialogPreviewMaterialTheme {
+        SelectAccountDialog(
+            provider = Provider(0, GOOGLE_FAVICON, "Google", "google.com"),
+            accounts = listOf(
+                Account(
+                    0,
+                    "user@mozilla.com",
+                    "User",
+                    USER_PICTURE,
+                ),
+                Account(
+                    1,
+                    "user2@mozilla.com",
+                    "Google",
+                    null,
+                ),
             ),
-            Account(
-                1,
-                "user2@mozilla.com",
-                "Google",
-                null,
-            ),
-        ),
-        modifier = Modifier.background(Color.White),
-        onAccountClick = { },
-    )
+            modifier = Modifier.background(Color.White),
+            onAccountClick = { },
+        )
+    }
 }
 
 @Suppress("MaxLineLength")

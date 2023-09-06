@@ -31,7 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
+import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
 import mozilla.components.support.ktx.kotlin.base64PngToBitmap
+import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
  * A Federated Credential Management dialog for selecting a provider.
@@ -117,10 +119,9 @@ private fun ProviderItemPreview() {
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@LightDarkPreview
 private fun SelectProviderDialogPreview() {
-    val colors = if (!isSystemInDarkTheme()) lightColors() else darkColors()
-    MaterialTheme(colors = colors) {
+    DialogPreviewMaterialTheme {
         SelectProviderDialog(
             providers = listOf(
                 Provider(
@@ -136,7 +137,7 @@ private fun SelectProviderDialogPreview() {
                     "google.com",
                 ),
             ),
-            modifier = Modifier.background(MaterialTheme.colors.background)
+            modifier = Modifier.background(MaterialTheme.colors.background),
         ) { }
     }
 }

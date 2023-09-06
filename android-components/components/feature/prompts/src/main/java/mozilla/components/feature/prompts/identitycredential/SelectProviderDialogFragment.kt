@@ -57,7 +57,7 @@ internal class SelectProviderDialogFragment : PromptDialogFragment() {
                     SelectProviderDialog(
                         providers = providers,
                         onProviderClick = ::onProviderChange,
-                        colors = DialogColors.default(), //change that later
+                        colors = DialogColors.default(),
                     )
                 }
             }

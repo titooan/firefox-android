@@ -29,6 +29,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
+import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
  * List item used to display an IdentityCredential item that supports clicks
@@ -85,11 +87,9 @@ internal fun IdentityCredentialItem(
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Provider with no favicon")
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark - Provider with no favicon")
+@LightDarkPreview
 private fun ProviderItemPreview() {
-    val colors = if (!isSystemInDarkTheme()) lightColors() else darkColors()
-    MaterialTheme(colors = colors) {
+    DialogPreviewMaterialTheme {
         IdentityCredentialItem(
             modifier = Modifier.background(MaterialTheme.colors.background),
             title = "Title",
