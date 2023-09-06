@@ -4,8 +4,10 @@
 
 package mozilla.components.feature.prompts.identitycredential
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +15,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,23 +32,21 @@ import androidx.compose.ui.unit.sp
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
 import mozilla.components.support.ktx.kotlin.base64PngToBitmap
-import mozilla.components.ui.colors.PhotonColors
 
 /**
  * A Federated Credential Management dialog for selecting a provider.
  * @param providers The list of available providers.
- * @param colorsProvider Provides [IdentityCredentialColors] that define the colors of the dialog
+ * @param colors The colors of the dialog.
  * @param modifier [Modifier] to be applied to the layout.
  * @param onProviderClick Called when the user clicks on an item.
  */
 @Composable
 fun SelectProviderDialog(
     providers: List<Provider>,
-    colorsProvider: IdentityCredentialColorsProvider,
     modifier: Modifier = Modifier,
+    colors: DialogColors = DialogColors.default(),
     onProviderClick: (Provider) -> Unit,
 ) {
-    val colors = colorsProvider.provideColors()
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -71,7 +74,7 @@ fun SelectProviderDialog(
 private fun ProviderItem(
     provider: Provider,
     modifier: Modifier = Modifier,
-    colors: IdentityCredentialColors,
+    colors: DialogColors = DialogColors.default(),
     onClick: (Provider) -> Unit,
 ) {
     IdentityCredentialItem(
@@ -109,32 +112,33 @@ private fun ProviderItemPreview() {
             "Title",
             "Description",
         ),
-        colors = IdentityCredentialDefaults.colors(),
         onClick = {},
     )
 }
 
 @Composable
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SelectProviderDialogPreview() {
-    SelectProviderDialog(
-        providers = listOf(
-            Provider(
-                0,
-                null,
-                "Title",
-                "Description",
+    val colors = if (!isSystemInDarkTheme()) lightColors() else darkColors()
+    MaterialTheme(colors = colors) {
+        SelectProviderDialog(
+            providers = listOf(
+                Provider(
+                    0,
+                    null,
+                    "Title",
+                    "Description",
+                ),
+                Provider(
+                    0,
+                    GOOGLE_FAVICON,
+                    "Google",
+                    "google.com",
+                ),
             ),
-            Provider(
-                0,
-                GOOGLE_FAVICON,
-                "Google",
-                "google.com",
-            ),
-        ),
-        modifier = Modifier.background(Color.White),
-        colorsProvider = IdentityCredentialDefaults.provider()
-    ) { }
+            modifier = Modifier.background(MaterialTheme.colors.background)
+        ) { }
+    }
 }
 
 @Suppress("MaxLineLength")

@@ -11,11 +11,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.ui.Modifier
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.ui.platform.ComposeView
 import mozilla.components.concept.identitycredential.Account
 import mozilla.components.concept.identitycredential.Provider
-import mozilla.components.feature.prompts.dialog.AlertDialogFragment
 import mozilla.components.feature.prompts.dialog.KEY_PROMPT_UID
 import mozilla.components.feature.prompts.dialog.KEY_SESSION_ID
 import mozilla.components.feature.prompts.dialog.KEY_SHOULD_DISMISS_ON_LOAD
@@ -61,12 +63,15 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
     internal fun createDialogContentView(): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                SelectAccountDialog(
-                    provider = provider,
-                    accounts = accounts,
-                    colorsProvider = colorsProvider,
-                    onAccountClick = ::onAccountChange,
-                )
+                val colors = if (isSystemInDarkTheme()) darkColors() else lightColors()
+                MaterialTheme(colors) {
+                    SelectAccountDialog(
+                        provider = provider,
+                        accounts = accounts,
+                        colors = colorsProvider.provideColors(),
+                        onAccountClick = ::onAccountChange,
+                    )
+                }
             }
         }
     }
@@ -89,7 +94,7 @@ internal class SelectAccountDialogFragment : PromptDialogFragment() {
          * @param accounts The list of available accounts.
          * @param provider The provider on which the user is logging in.
          * @param shouldDismissOnLoad Whether or not the dialog should automatically be dismissed when a new page is loaded.
-         * @param colorsProvider Provides [IdentityCredentialColors] that define the colors in the Dialog
+         * @param colorsProvider Provides [DialogColors] that define the colors in the Dialog
          */
         fun newInstance(
             sessionId: String,

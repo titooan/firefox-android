@@ -30,13 +30,12 @@ import mozilla.components.concept.identitycredential.Account
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
 import mozilla.components.support.ktx.kotlin.base64PngToBitmap
-import mozilla.components.ui.colors.PhotonColors
 
 /**
  * A Federated Credential Management dialog for selecting an account.
  *
  * @param provider The [Provider] on which the user is logging in.
- * @param colorsProvider Provides [IdentityCredentialColors] that define the colors of the dialog
+ * @param colors The colors of the dialog.
  * @param accounts The list of available accounts for this provider.
  * @param modifier [Modifier] to be applied to the layout.
  * @param onAccountClick Invoked when the user clicks on an item.
@@ -44,12 +43,11 @@ import mozilla.components.ui.colors.PhotonColors
 @Composable
 fun SelectAccountDialog(
     provider: Provider,
-    colorsProvider: IdentityCredentialColorsProvider,
     accounts: List<Account>,
     modifier: Modifier = Modifier,
+    colors: DialogColors = DialogColors.default(),
     onAccountClick: (Account) -> Unit,
 ) {
-    val colors = colorsProvider.provideColors()
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -95,8 +93,8 @@ fun SelectAccountDialog(
 @Composable
 private fun AccountItem(
     account: Account,
-    colors: IdentityCredentialColors,
     modifier: Modifier = Modifier,
+    colors: DialogColors = DialogColors.default(),
     onClick: (Account) -> Unit,
 ) {
     IdentityCredentialItem(
@@ -134,7 +132,6 @@ private fun AccountItemPreview() {
             "User",
             USER_PICTURE,
         ),
-        colors = IdentityCredentialDefaults.colors(),
         onClick = {},
     )
 }
@@ -159,7 +156,6 @@ private fun SelectAccountDialogPreview() {
             ),
         ),
         modifier = Modifier.background(Color.White),
-        colorsProvider = IdentityCredentialDefaults.provider(),
         onAccountClick = { },
     )
 }

@@ -4,16 +4,21 @@
 
 package mozilla.components.feature.prompts.identitycredential
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -40,21 +45,14 @@ internal fun IdentityCredentialItem(
     title: String,
     description: String,
     modifier: Modifier = Modifier,
-    colors: IdentityCredentialColors = IdentityCredentialDefaults.colors(),
+    colors: DialogColors = DialogColors.default(),
     onClick: () -> Unit,
     beforeItemContent: (@Composable () -> Unit)? = null,
 ) {
-    // Used to propagate the ripple effect to the whole row
-    val interactionSource = remember { MutableInteractionSource() }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
-                onClick = onClick,
-                interactionSource = interactionSource,
-                indication = rememberRipple(color = colors.ripple),
-            )
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -87,14 +85,18 @@ internal fun IdentityCredentialItem(
 }
 
 @Composable
-@Preview(name = "Provider with no favicon")
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, name = "Provider with no favicon")
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, name = "Dark - Provider with no favicon")
 private fun ProviderItemPreview() {
-    IdentityCredentialItem(
-        modifier = Modifier.background(Color.White),
-        title = "Title",
-        description = "Description",
-        onClick = {},
-    )
+    val colors = if (!isSystemInDarkTheme()) lightColors() else darkColors()
+    MaterialTheme(colors = colors) {
+        IdentityCredentialItem(
+            modifier = Modifier.background(MaterialTheme.colors.background),
+            title = "Title",
+            description = "Description",
+            onClick = {},
+        )
+    }
 }
 
 @Composable

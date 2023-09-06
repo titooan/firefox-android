@@ -15,10 +15,9 @@ import androidx.compose.ui.graphics.Color
 object IdentityCredentialDefaults {
 
     /**
-     * Creates an [IdentityCredentialColors] that represents the default colors used in an
+     * Creates an [DialogColors] that represents the default colors used in an
      * IdentityCredential dialog.
      *
-     * @param background The background of the AwesomeBar.
      * @param title The text color for the title of a suggestion.
      * @param description The text color for the description of a suggestion.
      */
@@ -27,12 +26,10 @@ object IdentityCredentialDefaults {
         title: Color = MaterialTheme.colors.onBackground,
         description: Color = MaterialTheme.colors.onBackground.copy(
             alpha = ContentAlpha.medium,
-        ),
-        ripple: Color = Color.Cyan,
-    ) = IdentityCredentialColors(
+        )
+    ) = DialogColors(
         title,
-        description,
-        ripple,
+        description
     )
 
     fun provider() = IdentityCredentialColorsProvider { colors() }

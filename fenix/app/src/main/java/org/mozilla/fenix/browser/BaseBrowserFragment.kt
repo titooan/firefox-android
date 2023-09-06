@@ -24,7 +24,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
@@ -79,7 +78,7 @@ import mozilla.components.feature.prompts.PromptFeature
 import mozilla.components.feature.prompts.PromptFeature.Companion.PIN_REQUEST
 import mozilla.components.feature.prompts.address.AddressDelegate
 import mozilla.components.feature.prompts.creditcard.CreditCardDelegate
-import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColors
+import mozilla.components.feature.prompts.identitycredential.DialogColors
 import mozilla.components.feature.prompts.identitycredential.IdentityCredentialColorsProvider
 import mozilla.components.feature.prompts.login.LoginDelegate
 import mozilla.components.feature.prompts.share.ShareDelegate
@@ -675,10 +674,9 @@ abstract class BaseBrowserFragment :
         )
 
         val colorsProvider = IdentityCredentialColorsProvider {
-            IdentityCredentialColors(
+            DialogColors(
                 title = ThemeManager.resolveAttributeColor(attribute = R.attr.textPrimary),
-                description = ThemeManager.resolveAttributeColor(attribute = R.attr.textSecondary),
-                ripple = ThemeManager.resolveAttributeColor(attribute = R.attr.textSecondary),
+                description = ThemeManager.resolveAttributeColor(attribute = R.attr.textSecondary)
             )
         }
 
