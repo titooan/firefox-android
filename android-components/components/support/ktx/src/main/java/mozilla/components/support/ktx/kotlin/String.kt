@@ -412,19 +412,15 @@ fun String.trimmed(): String {
     return this.take(MAX_URI_LENGTH)
 }
 
-/**
- * Returns a bitmap from the base64 representation of a PNG.
- * Returns null if the string is not a valid base64 representation of a PNG
- */
-fun String.base64PngToBitmap(): Bitmap? = base64ToBitmap(PNG_URI_PREFIX)
+
 
 /**
  * Returns a bitmap from its base64 representation.
  * Returns null if the string is not a valid base64 representation of a bitmap
- * @param prefix the prefix expected for the string to be considered a valid base64 bitmap string
  */
-private fun String.base64ToBitmap(prefix: String): Bitmap? {
-    if (!startsWith(prefix)) {
+fun String.base64ToBitmap(): Bitmap? {
+    val base64BitmapRegex = "(data:image/[^;]+;base64,)(.)*"
+    if (!base64BitmapRegex.toRegex().matches(this)) {
         return null
     }
     val raw = Base64.decode(substring(PNG_URI_PREFIX.length), Base64.DEFAULT)

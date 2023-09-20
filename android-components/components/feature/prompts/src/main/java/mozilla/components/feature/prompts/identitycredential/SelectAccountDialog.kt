@@ -30,7 +30,7 @@ import mozilla.components.concept.identitycredential.Account
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
 import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
-import mozilla.components.support.ktx.kotlin.base64PngToBitmap
+import mozilla.components.support.ktx.kotlin.base64ToBitmap
 import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
@@ -58,7 +58,7 @@ fun SelectAccountDialog(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(16.dp),
         ) {
-            provider.icon?.base64PngToBitmap()?.asImageBitmap()?.let {
+            provider.icon?.base64ToBitmap()?.asImageBitmap()?.let {
                 Image(
                     bitmap = it,
                     contentDescription = null,
@@ -106,7 +106,7 @@ private fun AccountItem(
         modifier = modifier,
         onClick = { onClick(account) },
     ) {
-        account.icon?.base64PngToBitmap()?.asImageBitmap()?.let { bitmap ->
+        account.icon?.base64ToBitmap()?.asImageBitmap()?.let { bitmap ->
             Image(
                 bitmap = bitmap,
                 contentDescription = null,

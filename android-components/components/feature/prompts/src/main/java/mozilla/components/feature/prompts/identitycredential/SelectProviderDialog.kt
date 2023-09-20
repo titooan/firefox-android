@@ -4,10 +4,8 @@
 
 package mozilla.components.feature.prompts.identitycredential
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import mozilla.components.concept.identitycredential.Provider
 import mozilla.components.feature.prompts.R
 import mozilla.components.feature.prompts.identitycredential.previews.DialogPreviewMaterialTheme
-import mozilla.components.support.ktx.kotlin.base64PngToBitmap
+import mozilla.components.support.ktx.kotlin.base64ToBitmap
 import org.mozilla.fenix.compose.annotation.LightDarkPreview
 
 /**
@@ -86,7 +82,7 @@ private fun ProviderItem(
         colors = colors,
         onClick = { onClick(provider) },
     ) {
-        provider.icon?.base64PngToBitmap()?.asImageBitmap()?.let { bitmap ->
+        provider.icon?.base64ToBitmap()?.asImageBitmap()?.let { bitmap ->
             Image(
                 bitmap = bitmap,
                 contentDescription = null,
